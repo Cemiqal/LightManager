@@ -1,5 +1,9 @@
 ### CONFIG ###
 config.json
+config.example.json
+
+### JAR ###
+LightManager_jar
 
 target/
 !.mvn/wrapper/maven-wrapper.jar
