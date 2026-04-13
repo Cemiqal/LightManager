@@ -1,0 +1,5 @@
+{
+  "enabled": true,
+  "goveeAPIKey": "Your API Key",
+  "sunsetOffsetInMin": 0
+}
