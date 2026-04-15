@@ -16,7 +16,7 @@ public class WeatherService {
    public LocalTime fetchSunset(){
       HttpRequest request = HttpRequest.newBuilder()
               .GET()
-              .uri(URI.create("https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&daily=sunset&timezone=Europe%2FBerlin&forecast_days=1")
+              .uri(URI.create("https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&daily=sunset&timezone=auto&forecast_days=1")
               ).build();
 
       try (HttpClient client = HttpClient.newBuilder()
