@@ -18,6 +18,8 @@ public class Main {
       DeviceService deviceService = new DeviceService(config.getGoveeAPIKey());
       deviceManager.addDevices(deviceService.fetchDevices());
 
+      ShutdownService shutdownService = new ShutdownService(deviceManager, deviceService);
+
       WeatherService weatherService = new WeatherService();
 
       TimeUnit timeUnit = TimeUnit.MINUTES;
@@ -26,5 +28,7 @@ public class Main {
               deviceManager.getDevices(),
               weatherService.getTimeUntilSunset(timeUnit) + config.getSunsetOffsetInMin(),
               timeUnit);
+
+      Runtime.getRuntime().addShutdownHook(new Thread(() -> shutdownService.shutdown(config.turnLightsOffOnShutdown())));
    }
 }

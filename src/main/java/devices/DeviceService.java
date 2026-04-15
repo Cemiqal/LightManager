@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 public class DeviceService {
 
    private final String apiKey;
+   private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 
    public DeviceService(String apiKey){
       this.apiKey = apiKey;
@@ -36,6 +37,9 @@ public class DeviceService {
               .version(HttpClient.Version.HTTP_1_1)
               .build()) {
          HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+         if(response.statusCode() == 401){
+            System.out.println("Please use a valid API Key!");
+         }
          return parseToDevices(response.body());
       } catch (IOException | InterruptedException e) {
          System.out.println("Something went wrong executing HttpRequest: " + e.getMessage());
@@ -48,9 +52,7 @@ public class DeviceService {
          powerDevices(power, devices);
          return;
       }
-      try(ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor()) {
-         executor.schedule(() -> powerDevices(power, devices), delay, timeUnit);
-      }
+      executor.schedule(() -> powerDevices(power, devices), delay, timeUnit);
    }
 
    public void powerDevices(boolean power, List<Device> devices){
